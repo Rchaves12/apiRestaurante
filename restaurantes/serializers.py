@@ -35,6 +35,21 @@ class RestaurantesSerializer(serializers.ModelSerializer):
         return restaurantes
         #return Restaurantes.objects.create(**validated_data)
 
+    def update(self, instance, validated_data):
+        enderecos_data = validated_data.pop('enderecos')
+
+        enderecos = instance.enderecos
+
+        instance.nome = validated_data.get('nome', instance.nome)
+        instance.foto = validated_data.get('foto', instance.foto)
+        instance.telefone = validated_data.get('telefone', instance.telefone)
+        instance.save()
+
+        enderecos.save()
+
+        return instance
+
+
 class ComentariosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comentarios
